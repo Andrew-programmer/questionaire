@@ -2,31 +2,41 @@ import {useNavigate} from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { Wrapper } from "../../HOCs/Wrapper.hoc";
 import {QUESTIONS} from "../../uutils";
-import { LabelInput } from "../../components/Register/LabelInput";
-// import { getMainQuestion } from "../../http";
+import {useContext} from "react";
+import {Context} from "../../App";
+import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 
 export const Register = () => {
+    // @ts-ignore
+    const {auth} = useContext(Context);
     const navigate = useNavigate();
+
+
+    const onRegisterClick = async () => {
+        const provider = new GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        const {user} = await signInWithPopup(auth, provider);
+        navigateToQuestion();
+    }
 
     const navigateToQuestion = () => {
         navigate(QUESTIONS);
     };
 
-    // getMainQuestion();
-
 
     return (
         <>
             <Wrapper>
-                <h1>REGISTER</h1>
-                <LabelInput placeholder={"Freddie Fazber"} props={{type: 'text'}}>
-                    Name and Surname
-                </LabelInput>
-                <LabelInput placeholder="freddie.fazber@gmail.com" props={{type: 'text'}}>
-                    Email address
-                </LabelInput>
-                <Button onClick={navigateToQuestion}>
-                    START
+                {/*<TextField variant={'standard'} label={'Name and Surname'} placeholder={'Freddie Fazber'} sx={{*/}
+                {/*    width: '100%',*/}
+                {/*    marginY: '1rem'*/}
+                {/*}}/>*/}
+                {/*<TextField variant={'standard'} label={'Email address'} placeholder={'freddie.fazber@gmail.com'} sx={{*/}
+                {/*    width: '100%',*/}
+                {/*    marginY: '1rem'*/}
+                {/*}}/>*/}
+                <Button onClick={onRegisterClick}>
+                    REGISTER
                 </Button>
             </Wrapper>
         </>

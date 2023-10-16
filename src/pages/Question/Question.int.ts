@@ -1,10 +1,7 @@
-type Trainer = 'Trainer';
-type Amateur = 'Amateur';
-type PosTrainer = 'PosTrainer';
-
 export interface QuestionInt {
-    id: number;
+    id: string;
     title: string;
-    type: Trainer | Amateur | PosTrainer;
+    type: "radio" | "text",
+    answers: string[]
 }
 
